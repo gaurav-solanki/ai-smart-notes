@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase/client";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 
 interface AuthContextType {
@@ -19,27 +19,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Get current session on mount
     const getSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setUser(data.session?.user ?? null);
-      setLoading(false);
+      try {
+        const client = getSupabaseClient();
+        const { data } = await client.auth.getSession();
+        setUser(data.session?.user ?? null);
+      } catch (error) {
+        console.error("Error getting session:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     getSession();
 
     // Listen for auth changes
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null);
-      },
-    );
+    try {
+      const client = getSupabaseClient();
+      const { data: listener } = client.auth.onAuthStateChange(
+        (_event, session) => {
+          setUser(session?.user ?? null);
+        },
+      );
 
-    return () => {
-      listener.subscription.unsubscribe();
-    };
+      return () => {
+        listener.subscription.unsubscribe();
+      };
+    } catch (error) {
+      console.error("Error setting up auth listener:", error);
+    }
   }, []);
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    try {
+      const client = getSupabaseClient();
+      await client.auth.signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+      throw error;
+    }
   };
 
   return (
