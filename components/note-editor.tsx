@@ -25,14 +25,14 @@ export function NoteEditor({
   isExtracting,
 }: NoteEditorProps) {
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-col h-full">
       {/* Title Input */}
       <input
         type="text"
         placeholder="Untitled Note"
         value={title}
         onChange={(e) => onTitleChange(e.target.value)}
-        className="w-full border-none bg-transparent px-0 text-3xl font-bold text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-0"
+        className="w-full border-none bg-transparent px-0 text-3xl font-bold text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-0 shrink-0"
       />
 
       {/* Content Editor */}
@@ -40,11 +40,11 @@ export function NoteEditor({
         placeholder="Start writing your note..."
         value={content}
         onChange={(e) => onContentChange(e.target.value)}
-        className="mt-4 min-h-[240px] w-full flex-1 resize-none border-none bg-transparent text-base leading-relaxed text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-0"
+        className="mt-4 w-full flex-1 resize-none border-none bg-transparent text-base leading-relaxed text-foreground placeholder:text-muted-foreground/40 focus:outline-none focus:ring-0"
       />
 
       {/* AI Actions */}
-      <div className="mt-6 flex flex-wrap gap-3">
+      <div className="mt-6 flex flex-wrap gap-3 shrink-0">
         <Button
           onClick={onSummarize}
           disabled={!content.trim() || isSummarizing}

@@ -309,7 +309,7 @@ export default function DashboardPage1() {
 
       <div className="flex flex-1 overflow-hidden">
         <div
-          className={`fixed inset-y-16 left-0 z-50 w-72 transform transition-transform duration-200 ease-in-out md:relative md:inset-y-0 md:translate-x-0 ${
+          className={`fixed top-16 left-0 bottom-0 z-40 w-72 transform transition-transform duration-200 ease-in-out md:relative md:top-0 md:bottom-auto md:translate-x-0 ${
             mobileOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
