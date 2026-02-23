@@ -44,9 +44,6 @@ export default function LoginPage() {
         return;
       }
 
-      console.log(data);
-      console.log(error);
-
       router.push("/dashboard");
       router.refresh();
     } catch (err) {
